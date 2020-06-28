@@ -1,0 +1,35 @@
+{
+    "name": "psychob/ppp",
+    "description": "psychob php packages",
+    "type": "library",
+    "license": "MPL-2.0",
+    "authors": [
+        {
+            "name": "Andrzej Budzanowski",
+            "email": "kontakt@andrzej.budzanowski.pl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "mikey179/vfsstream": "^1.6",
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^9.2",
+        "symfony/var-dumper": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "PsychoB\\WebFramework\\": "./src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\PsychoB\\WebFramework\\": "./tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
