@@ -12,6 +12,12 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.4",
+        "ext-mbstring": "*",
+        "danielstjules/stringy": "^3.1",
+        "psr/container": "^1.0",
+        "psr/log": "^1.1",
+        "ramsey/uuid": "^4.0",
+        "symfony/finder": "^5.1",
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
@@ -23,7 +29,10 @@
     "autoload": {
         "psr-4": {
             "PsychoB\\WebFramework\\": "./src"
-        }
+        },
+        "files": [
+            "./src/Collection/collect-fnc.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
