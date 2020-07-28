@@ -19,6 +19,7 @@
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^9.2",
+        "sebastian/diff": "^4.0",
         "symfony/var-dumper": "^5.1"
     },
     "autoload": {
