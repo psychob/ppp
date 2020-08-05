@@ -9,10 +9,12 @@
     namespace Tests\PsychoB\WebFramework\Tokenizer;
 
     use PsychoB\WebFramework\Testing\TestCase;
+    use PsychoB\WebFramework\Tokenizer\FlatTokenizer;
     use PsychoB\WebFramework\Tokenizer\Tokenizer;
     use PsychoB\WebFramework\Tokenizer\Tokens\LiteralToken;
     use PsychoB\WebFramework\Tokenizer\Tokens\NumberToken;
     use PsychoB\WebFramework\Tokenizer\Tokens\WhitespaceToken;
+    use PsychoB\WebFramework\Utility\Arr;
 
     class TokenizerTest extends TestCase
     {
@@ -106,9 +108,10 @@
                                   ->addLiteralGroup()
                                   ->make();
 
+            $this->assertInstanceOf(FlatTokenizer::class, $tokenizer);
             $t = $tokenizer->tokenize($str);
 
-            $this->assertArrayInstanceOf($tokens, $t);
+            $this->assertArrayInstanceOf($tokens, Arr::toArray($t));
         }
 
         /** @dataProvider provideAdvancedData */
@@ -120,9 +123,10 @@
                                   ->addElementGroup('number', '0123456789', true, NumberToken::class)
                                   ->addElementGroup('number-header', ['0x', '0o', '0b'], false, NumberToken::class)
                                   ->make();
+            $this->assertInstanceOf(FlatTokenizer::class, $tokenizer);
 
             $t = $tokenizer->tokenize($str);
 
-            $this->assertArrayInstanceOf($tokens, $t);
+            $this->assertArrayInstanceOf($tokens, Arr::toArray($t));
         }
     }

@@ -8,147 +8,89 @@
 
     namespace PsychoB\WebFramework\Tokenizer;
 
-    use PsychoB\WebFramework\Tokenizer\Tokens\TokenInterface;
+    use PsychoB\WebFramework\Tokenizer\Tokens\LiteralToken;
+    use PsychoB\WebFramework\Tokenizer\Tokens\WhitespaceToken;
+    use PsychoB\WebFramework\Utility\Arr;
     use PsychoB\WebFramework\Utility\Str;
 
     class Tokenizer
     {
-        public static function create(): TokenizerBuilder
+        public static function create(): Tokenizer
         {
-            return new TokenizerBuilder();
+            return new Tokenizer();
         }
 
         /** @var ElementGroup[] */
         private array $elements = [];
 
+        /** @var SubContextGroup[] */
+        private array $subContextParser = [];
+
+        private bool $parseOnlyInside = false;
+        private string $outsideClass = '';
+
         /**
-         * @param ElementGroup[] $elements
+         * @param string          $name
+         * @param string[]|string $characters
+         * @param bool            $merge
+         * @param string          $tokenClass
+         *
+         * @return $this
          */
-        public function __construct(array $elements)
+        public function addElementGroup(string $name, $characters, bool $merge, string $tokenClass): self
         {
-            $this->elements = $elements;
+            if (is_string($characters)) {
+                $characters = Str::split($characters);
+            }
+
+            $this->elements[] = new ElementGroup($name, $characters, $merge, $tokenClass);
+
+            return $this;
         }
 
-        public function tokenize(string $str): array
+        public function addWhitespaceGroup(): self
         {
-            $length = Str::len($str);
+            return $this->addElementGroup('whitespace', " \t\r\n", true, WhitespaceToken::class);
+        }
 
-            $defaultType = $this->getDefaultType();
-            $currentStr = '';
-            $currentType = $defaultType;
-            $currentStartIt = 0;
-            [$mappedCharacters, $availableCharacters] = $this->getAllAvailableCharacters();
-            $ret = [];
+        public function addLiteralGroup(): self
+        {
+            return $this->addElementGroup('literal', [], true, LiteralToken::class);
+        }
 
-            for ($it = 0; $it < $length; ++$it) {
-                $matchElement = Str::matchNextCharacter($str, $availableCharacters, $it);
+        public function addSubContextParser(string $name, $start, $end, TokenizerInterface $tokenizer): self
+        {
+            if (is_string($start)) {
+                $start = [$start];
+            }
 
-                if ($matchElement === null) {
-                    if ($defaultType === null) {
-                        throw new UnexpectedCharacterException($str, $it);
-                    }
+            if (is_string($end)) {
+                $end = [$end];
+            }
 
-                    if ($currentType !== $defaultType) {
-                        $token = $this->pushToken($currentType, $currentStr, $currentStartIt);
+            $this->subContextParser[] = new SubContextGroup($name, $start, $end, $tokenizer);
 
-                        if ($token !== null) {
-                            $ret[] = $token;
+            return $this;
+        }
 
-                            $currentStr = $str[$it];
-                            $currentType = $defaultType;
-                            $currentStartIt = $it;
-                        }
-                    } else {
-                        $currentStr .= $str[$it];
-                    }
+        public function parseOutside(bool $value, string $outsideClass = ''): self
+        {
+            $this->parseOnlyInside = !$value;
+            $this->outsideClass = $outsideClass;
+
+            return $this;
+        }
+
+        public function make(): TokenizerInterface
+        {
+            if (Arr::len($this->subContextParser) > 0) {
+                if ($this->parseOnlyInside) {
+                    return new SubContextInsideTokenizer($this->subContextParser, $this->outsideClass);
                 } else {
-                    $newType = $mappedCharacters[$matchElement];
-
-                    if ($newType !== $currentType) {
-                        $token = $this->pushToken($currentType, $currentStr, $currentStartIt);
-
-                        if ($token !== null) {
-                            $ret[] = $token;
-                        }
-
-                        $currentStr = $matchElement;
-                        $currentType = $newType;
-                        $currentStartIt = $it;
-                    } else {
-                        if ($this->getType($currentType)->isMergeSimilar()) {
-                            $currentStr .= $matchElement;
-                        } else {
-                            $token = $this->pushToken($currentType, $currentStr, $currentStartIt);
-
-                            if ($token !== null) {
-                                $ret[] = $token;
-                            }
-
-                            $currentStr = $matchElement;
-                            $currentType = $newType;
-                            $currentStartIt = $it;
-                        }
-                    }
-
-                    $it += Str::len($matchElement) - 1;
+                    return new SubContextOutsideTokenizer($this->elements, $this->subContextParser, $this->outsideClass);
                 }
             }
 
-            if ($currentStr) {
-                $token = $this->pushToken($currentType, $currentStr, $currentStartIt);
-
-                if ($token) {
-                    $ret[] = $token;
-                }
-            }
-
-            return $ret;
-        }
-
-        private function getDefaultType(): ?string
-        {
-            foreach ($this->elements as $element) {
-                if ($element->isDefault()) {
-                    return $element->getName();
-                }
-            }
-
-            return null;
-        }
-
-        private function getAllAvailableCharacters(): array
-        {
-            $mapped = [];
-            $allChars = [];
-
-            foreach ($this->elements as $element) {
-                foreach ($element->getElements() as $chr) {
-                    $allChars[] = $chr;
-                    $mapped[$chr] = $element->getName();
-                }
-            }
-
-            return [$mapped, $allChars];
-        }
-
-        private function getType(string $currentType): ElementGroup
-        {
-            foreach ($this->elements as $element) {
-                if ($element->getName() == $currentType) {
-                    return $element;
-                }
-            }
-        }
-
-        private function pushToken(?string $type, string $token, int $startIt): ?TokenInterface
-        {
-            if (empty($token)) {
-                return null;
-            }
-
-            $element = $this->getType($type);
-            $class = $element->getClass();
-
-            return new $class($token, $startIt);
+            return new FlatTokenizer($this->elements);
         }
     }

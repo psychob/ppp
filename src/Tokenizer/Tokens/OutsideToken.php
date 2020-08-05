@@ -8,6 +8,6 @@
 
     namespace PsychoB\WebFramework\Tokenizer\Tokens;
 
-    class WhitespaceToken extends AbstractToken implements TokenInterface
+    class OutsideToken extends AbstractToken implements TokenInterface
     {
     }

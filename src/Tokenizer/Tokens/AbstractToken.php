@@ -10,7 +10,7 @@
 
     use PsychoB\WebFramework\Utility\Str;
 
-    trait TokenTrait
+    abstract class AbstractToken implements TokenInterface
     {
         private string $token;
         private int $start;
@@ -22,7 +22,7 @@
             $this->start = $start;
             $this->length = Str::len($token);
         }
-        
+
         public function getToken(): string
         {
             return $this->token;
@@ -36,5 +36,10 @@
         public function getLength(): int
         {
             return $this->length;
+        }
+
+        public function withAdjustedStart(int $offset): self
+        {
+            return new static($this->token, $this->start + $offset);
         }
     }

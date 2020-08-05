@@ -8,7 +8,6 @@
 
     namespace PsychoB\WebFramework\Tokenizer\Tokens;
 
-    class LiteralToken implements TokenInterface
+    class LiteralToken extends AbstractToken implements TokenInterface
     {
-        use TokenTrait;
     }
