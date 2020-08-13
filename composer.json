@@ -13,12 +13,13 @@
     "require": {
         "php": "^7.4",
         "psr/container": "^1.0",
-        "psr/log": "^1.1"
+        "psr/log": "^1.1",
+        "symfony/finder": "^5.1"
     },
     "require-dev": {
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.4",
-        "phpunit/phpunit": "^9.2",
+        "phpunit/phpunit": "^9.3",
         "sebastian/diff": "^4.0",
         "symfony/var-dumper": "^5.1"
     },
