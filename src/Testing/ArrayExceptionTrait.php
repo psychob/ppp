@@ -8,7 +8,9 @@
 
     namespace PsychoB\WebFramework\Testing;
 
+    use Iterator;
     use PHPUnit\Framework\TestCase as PhpUnitTestCase;
+    use PsychoB\WebFramework\Testing\Constraints\ArrayIsEqualConstraint;
     use PsychoB\WebFramework\Utility\Arr;
     use PsychoB\WebFramework\Utility\IteratorHasNoMoreElementsException;
     use PsychoB\WebFramework\Utility\Str;
@@ -81,5 +83,23 @@
 
             $differ = new Differ(new UnifiedDiffOutputBuilder("\n--- Expected\n+++ Actual\n"));
             return $differ->diff($expectedAsString, $actualAsString);
+        }
+
+        public static function assertArrayHasKeys(array $expected, $actual, string $message = ''): void
+        {
+            if ($actual instanceof Iterator) {
+                $actual = Arr::toArray($actual);
+            }
+
+            foreach ($actual as $key => $value) {
+                PhpUnitTestCase::assertContains($key, $expected);
+            }
+
+            PhpUnitTestCase::assertGreaterThanOrEqual(count($expected), count($actual));
+        }
+
+        public static function assertArrayEquals(array $expected, $actual, string $message = ''): void
+        {
+            PhpUnitTestCase::assertThat($actual, new ArrayIsEqualConstraint($expected), $message);
         }
     }
