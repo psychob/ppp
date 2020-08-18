@@ -15,3 +15,4 @@ script:
   - php vendor/bin/phpunit --coverage-clover build/logs/clover.xml --path
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - bash <(curl -s https://codecov.io/bash)
