@@ -57,9 +57,11 @@
             return [
                 [$input, $filterKeyOutput, 'filterKey', $isUpperCallable],
                 [$input, $filterValueOutput, 'filterValue', $isUpperCallable],
+                [$input, $filterValueOutput, 'filter', $isUpperCallable],
                 [$input, $filterOutEmpty, 'filterOutEmpty', fn () => true],
                 [$input, $mapKey, 'mapKey', fn ($key) => $key . '1'],
                 [$input, $mapValue, 'mapValue', fn ($value) => null],
+                [$input, $mapValue, 'map', fn ($value) => null],
             ];
         }
 

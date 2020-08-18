@@ -8,11 +8,10 @@
 
     namespace PsychoB\WebFramework\Collection\Iterator;
 
-    class FilterValueIterator extends AbstractFilterIterator implements StreamIteratorInterface
+    class FilterIterator extends AbstractFilterIterator implements StreamIteratorInterface
     {
         protected function filterOutElement($key, $current): bool
         {
             return ($this->callable)($current, $key);
         }
     }
-

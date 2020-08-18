@@ -8,13 +8,13 @@
 
     namespace PsychoB\WebFramework\Collection\Iterator;
 
-    class MapKeyIterator extends AbstractMapIterator implements StreamIteratorInterface
+    class MapIterator extends AbstractMapIterator implements StreamIteratorInterface
     {
         protected function mapElement($key, $current): array
         {
             return [
-                ($this->callable)($key, $current),
-                $current,
+                $key,
+                ($this->callable)($current, $key),
             ];
         }
     }

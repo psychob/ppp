@@ -8,8 +8,12 @@
 
     namespace PsychoB\WebFramework\Collection;
 
+    use ArrayIterator;
+    use Iterator;
+    use PsychoB\WebFramework\Collection\Iterator\FilterIterator;
     use PsychoB\WebFramework\Collection\Iterator\FilterKeyIterator;
     use PsychoB\WebFramework\Collection\Iterator\FilterValueIterator;
+    use PsychoB\WebFramework\Collection\Iterator\MapIterator;
     use PsychoB\WebFramework\Collection\Iterator\MapKeyIterator;
     use PsychoB\WebFramework\Collection\Iterator\MapValueIterator;
     use PsychoB\WebFramework\Utility\Arr;
@@ -20,7 +24,7 @@
         private array $filters;
 
         private bool $iterating = false;
-        private \Iterator $iterator;
+        private Iterator $iterator;
 
         public function __construct(array $container)
         {
@@ -53,6 +57,16 @@
             return $this->_append(MapValueIterator::class, $callable);
         }
 
+        public function filter($callable): CollectionStreamInterface
+        {
+            return $this->_append(FilterIterator::class, $callable);
+        }
+
+        public function map($callable): CollectionStreamInterface
+        {
+            return $this->_append(MapIterator::class, $callable);
+        }
+
         private function _append(string $class, $callable): CollectionStreamInterface
         {
             $this->filters[] = [$class, $callable];
@@ -65,9 +79,9 @@
             $this->container = [];
 
             if (Arr::count($this->filters) === 0 || Arr::count($tmp) === 0) {
-                return new \ArrayIterator($tmp);
+                return new ArrayIterator($tmp);
             } else {
-                $cnt = new \ArrayIterator($tmp);
+                $cnt = new ArrayIterator($tmp);
 
                 foreach ($this->filters as $val) {
                     [$class, $callable] = $val;
