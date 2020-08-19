@@ -30,6 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Mocks\\PsychoB\\WebFramework\\": "./tests_mocks",
             "Tests\\PsychoB\\WebFramework\\": "./tests"
         }
     },

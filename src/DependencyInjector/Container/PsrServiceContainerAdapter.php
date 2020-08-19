@@ -6,10 +6,15 @@
 
     declare(strict_types=1);
 
-    namespace PsychoB\WebFramework\DependencyInjector;
+    namespace PsychoB\WebFramework\DependencyInjector\Container;
 
     use Psr\Container\ContainerInterface;
 
+    /**
+     * Adapter for compatibility with PSR-11
+     *
+     * @author Andrzej Budzanowski <kontakt@andrzej.budzanowski.pl>
+     */
     class PsrServiceContainerAdapter implements ContainerInterface
     {
         private ReadonlyServiceContainerInterface $container;

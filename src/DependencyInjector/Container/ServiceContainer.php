@@ -6,9 +6,9 @@
 
     declare(strict_types=1);
 
-    namespace PsychoB\WebFramework\DependencyInjector;
+    namespace PsychoB\WebFramework\DependencyInjector\Container;
 
-    use Psr\Container\ContainerInterface;
+    use PsychoB\WebFramework\DependencyInjector\Exceptions\ElementNotFoundException;
 
     class ServiceContainer implements ReadonlyServiceContainerInterface, ServiceContainerInterface
     {

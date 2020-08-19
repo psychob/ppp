@@ -9,7 +9,9 @@
     namespace PsychoB\WebFramework\Testing;
 
     use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
+    use PHPUnit\Framework\Constraint\LogicalAnd;
     use PHPUnit\Framework\TestCase as PhpUnitTestCase;
+    use PsychoB\WebFramework\Testing\Constraints\ObjectPropertiesConstraint;
 
     /**
      * @mixin PhpUnitTestCase
@@ -21,13 +23,13 @@
             try {
                 $func();
             } catch (\Throwable $t) {
-                $this->assertThat($t, new ExceptionConstraint(
-                    $class
-                ));
+                $logicalAnd = new LogicalAnd();
+                $logicalAnd->setConstraints([
+                    new ExceptionConstraint($class),
+                    new ObjectPropertiesConstraint($properties),
+                ]);
 
-                foreach ($properties as $name => $value) {
-                    $this->assertSame($value, $t->{$name}());
-                }
+                $this->assertThat($t, $logicalAnd);
             }
         }
     }

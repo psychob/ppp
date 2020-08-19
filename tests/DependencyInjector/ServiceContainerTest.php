@@ -9,10 +9,10 @@
     namespace Tests\PsychoB\WebFramework\DependencyInjector;
 
     use Psr\Container\ContainerInterface;
-    use PsychoB\WebFramework\DependencyInjector\ElementNotFoundException;
-    use PsychoB\WebFramework\DependencyInjector\ReadonlyServiceContainerInterface;
-    use PsychoB\WebFramework\DependencyInjector\ServiceContainer;
-    use PsychoB\WebFramework\DependencyInjector\ServiceContainerInterface;
+    use PsychoB\WebFramework\DependencyInjector\Exceptions\ElementNotFoundException;
+    use PsychoB\WebFramework\DependencyInjector\Container\ReadonlyServiceContainerInterface;
+    use PsychoB\WebFramework\DependencyInjector\Container\ServiceContainer;
+    use PsychoB\WebFramework\DependencyInjector\Container\ServiceContainerInterface;
     use PsychoB\WebFramework\Testing\TestCase;
 
     class ServiceContainerTest extends TestCase

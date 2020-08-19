@@ -156,4 +156,19 @@
         {
             return strtolower($str);
         }
+
+        public static function regExpMatch(string $pattern, string $subject): ?array
+        {
+            $m = [];
+            if (preg_match($pattern, $subject, $m) === false) {
+                return null;
+            }
+
+            return $m;
+        }
+
+        public static function is($str): bool
+        {
+            return is_string($str);
+        }
     }

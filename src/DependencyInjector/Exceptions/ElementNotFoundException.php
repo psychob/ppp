@@ -6,14 +6,14 @@
 
     declare(strict_types=1);
 
-    namespace PsychoB\WebFramework\DependencyInjector;
+    namespace PsychoB\WebFramework\DependencyInjector\Exceptions;
 
     use PsychoB\WebFramework\Core\BaseException;
     use Throwable;
 
     class ElementNotFoundException extends BaseException
     {
-        private array $elements = [];
+        private array $elements;
         private string $key;
 
         /**
