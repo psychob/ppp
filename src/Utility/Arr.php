@@ -15,6 +15,8 @@
 
     class Arr
     {
+        use ArrStackTrait;
+
         public static function hasKey(array $arr, $key): bool
         {
             return array_key_exists($key, $arr);
@@ -38,23 +40,9 @@
             return $ret;
         }
 
-        public static function popBack(array &$array): void
-        {
-            array_pop($array);
-        }
-
         public static function empty(array $arr): bool
         {
             return empty($arr);
-        }
-
-        public static function popFront(array &$arr)
-        {
-            $first = array_key_first($arr);
-            $first = $arr[$first];
-
-            $arr = array_slice($arr, 1);
-            return $first;
         }
 
         public static function count(array $arr): int
