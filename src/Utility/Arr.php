@@ -11,11 +11,13 @@
     use PsychoB\WebFramework\Collection\CollectionStream;
     use PsychoB\WebFramework\Collection\CollectionStreamInterface;
     use PsychoB\WebFramework\Utility\Exceptions\IteratorHasNoMoreElementsException;
+    use PsychoB\WebFramework\Utility\Traits\ArrIteratorTrait;
     use PsychoB\WebFramework\Utility\Traits\ArrStackTrait;
 
     class Arr
     {
         use ArrStackTrait;
+        use ArrIteratorTrait;
 
         public static function hasKey(array $arr, $key): bool
         {
@@ -166,15 +168,11 @@
             static $emptyValue = null;
 
             if ($emptyValue === null) {
-                $emptyValue = new class { };
+                $emptyValue = new class {
+                };
             }
 
             return $emptyValue;
-        }
-
-        public static function filter(array $arr, $callable): array
-        {
-            return array_filter($arr, fn ($val, $key) => $callable($val, $key), ARRAY_FILTER_USE_BOTH);
         }
 
         public static function first($arr)
@@ -191,6 +189,7 @@
         public static function sort(array $arr, $cmpCallable): array
         {
             uasort($arr, $cmpCallable);
+
             return $arr;
         }
 
