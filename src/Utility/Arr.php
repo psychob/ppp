@@ -235,4 +235,19 @@
         {
             return array_keys($arr);
         }
+
+        public static function firstOf($arr, $callback)
+        {
+            foreach ($arr as $key => $value) {
+                if ($callback($value, $key)) {
+                    return $value;
+                }
+            }
+
+            return null;
+        }
+
+        public static function fetchBack($arr)
+        {
+        }
     }

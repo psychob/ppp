@@ -82,4 +82,11 @@
 
             return false;
         }
+
+        public static function assert(bool $trigger, \Closure $onFalse): void
+        {
+            if (!$trigger) {
+                throw $onFalse();
+            }
+        }
     }
