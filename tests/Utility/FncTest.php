@@ -13,7 +13,7 @@
     use PsychoB\WebFramework\Testing\TestCase;
     use PsychoB\WebFramework\Utility\Exceptions\NoMatchingException;
     use PsychoB\WebFramework\Utility\Fnc;
-    use PsychoB\WebFramework\Utility\IteratorHasNoMoreElementsException;
+    use PsychoB\WebFramework\Utility\Exceptions\IteratorHasNoMoreElementsException;
     use Throwable;
 
     class FncTest extends TestCase

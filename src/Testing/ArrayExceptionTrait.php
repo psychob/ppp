@@ -12,7 +12,7 @@
     use PHPUnit\Framework\TestCase as PhpUnitTestCase;
     use PsychoB\WebFramework\Testing\Constraints\ArrayIsEqualConstraint;
     use PsychoB\WebFramework\Utility\Arr;
-    use PsychoB\WebFramework\Utility\IteratorHasNoMoreElementsException;
+    use PsychoB\WebFramework\Utility\Exceptions\IteratorHasNoMoreElementsException;
     use PsychoB\WebFramework\Utility\Str;
     use SebastianBergmann\Diff\Differ;
     use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;

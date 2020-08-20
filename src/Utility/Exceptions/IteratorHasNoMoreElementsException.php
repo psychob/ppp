@@ -6,7 +6,7 @@
 
     declare(strict_types=1);
 
-    namespace PsychoB\WebFramework\Utility;
+    namespace PsychoB\WebFramework\Utility\Exceptions;
 
     use PsychoB\WebFramework\Core\BaseException;
     use Throwable;

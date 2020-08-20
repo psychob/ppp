@@ -10,6 +10,8 @@
 
     use PsychoB\WebFramework\Collection\CollectionStream;
     use PsychoB\WebFramework\Collection\CollectionStreamInterface;
+    use PsychoB\WebFramework\Utility\Exceptions\IteratorHasNoMoreElementsException;
+    use PsychoB\WebFramework\Utility\Traits\ArrStackTrait;
 
     class Arr
     {
