@@ -58,10 +58,12 @@
         public static function findNext(string $text, string $substring, int $offset = 0): ?int
         {
             if ($offset) {
-                return strpos($text, $substring, $offset) ?? null;
+                $val = strpos($text, $substring, $offset);
+                return is_int($val) ? $val : null;
             }
 
-            return strpos($text, $substring) ?? null;
+            $val = strpos($text, $substring);
+            return is_int($val) ? $val : null;
         }
 
         public static function findNextNotOf(
@@ -87,8 +89,12 @@
             return trim($str);
         }
 
-        public static function rtrim(string $text): string
+        public static function rtrim(string $text, ?string $delimiters = null): string
         {
+            if ($delimiters) {
+                return rtrim($text, $delimiters);
+            }
+
             return rtrim($text);
         }
 
@@ -170,5 +176,19 @@
         public static function is($str): bool
         {
             return is_string($str);
+        }
+
+        public static function explode(string $subject, string $delimiter): array
+        {
+            return explode($delimiter, $subject);
+        }
+
+        public static function last(string $str): ?string
+        {
+            if (empty($str)) {
+                return null;
+            }
+
+            return $str[strlen($str) - 1];
         }
     }

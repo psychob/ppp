@@ -9,6 +9,7 @@
     namespace PsychoB\WebFramework\Web\Http\Route;
 
     use PsychoB\WebFramework\Utility\Arr;
+    use PsychoB\WebFramework\Utility\Str;
     use PsychoB\WebFramework\Web\Exceptions\DuplicateRouteException;
     use PsychoB\WebFramework\Web\Exceptions\DuplicateRouteNameException;
     use PsychoB\WebFramework\Web\Http\Request;
@@ -46,11 +47,27 @@
 
         public function getGlobalRequest(): Request
         {
-            return new Request();
+            /** @noinspection GlobalVariableUsageInspection */
+            return new Request(
+                Str::toUpper($_SERVER['REQUEST_METHOD']),
+                $_SERVER['REQUEST_URI'],
+                Arr::stream($_SERVER)
+                    ->filterKey(fn ($key) => Str::sub($key, 0, 5) === 'HTTP_')
+                    ->toArray()
+            );
         }
 
         public function matchRouteForRequest(Request $request): FilledRoute
         {
+            foreach ($this->routes as $route) {
+                $filled = $route->match($request);
+
+                if ($filled !== null) {
+                    return $filled;
+                }
+            }
+
+            return new FilledRoute($this->get404Route(), $request);
         }
 
         private function _checkIfConflicting(Route $new, Route $current): bool
