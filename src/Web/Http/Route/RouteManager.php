@@ -9,9 +9,9 @@
     namespace PsychoB\WebFramework\Web\Http\Route;
 
     use PsychoB\WebFramework\Utility\Arr;
+    use PsychoB\WebFramework\Web\Exceptions\DuplicateRouteException;
     use PsychoB\WebFramework\Web\Exceptions\DuplicateRouteNameException;
     use PsychoB\WebFramework\Web\Http\Request;
-    use PsychoB\WebFramework\Web\Http\Response;
 
     class RouteManager
     {
@@ -22,11 +22,17 @@
 
         public function addRoute(array $methods, string $uri, array $controller, ?string $name = null): void
         {
-            if ($name && ($or = Arr::firstOf($this->routes, fn (Route $r) => $r->getName() === $name))) {
-                throw new DuplicateRouteNameException($name, $or);
+            $newRoute = new Route($methods, $uri, $controller, $name);
+
+            if ($conflicting = Arr::firstOf($this->routes, fn (Route $r) => $this->_checkIfConflicting($newRoute, $r))) {
+                if ($conflicting->getName() === $newRoute->getName()) {
+                    throw new DuplicateRouteNameException($conflicting->getName(), $newRoute, $conflicting);
+                }
+
+                throw new DuplicateRouteException($newRoute, $conflicting);
             }
 
-            $this->routes[] = new Route($methods, $uri, $controller, $name);
+            $this->routes[] = $newRoute;
         }
 
         public function getCurrentRequest(): Request
@@ -45,5 +51,20 @@
 
         public function matchRouteForRequest(Request $request): FilledRoute
         {
+        }
+
+        private function _checkIfConflicting(Route $new, Route $current): bool
+        {
+            if ($new->getName() !== null && $new->getName() === $current->getName()) {
+                return true;
+            }
+
+            return Arr::notEmpty(Arr::valuesIntersects($new->getMethods(), $current->getMethods())) &&
+                $new->getUri() === $current->getUri();
+        }
+
+        public function getRouteCount(): int
+        {
+            return Arr::len($this->routes);
         }
     }

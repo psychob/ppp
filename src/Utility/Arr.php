@@ -203,4 +203,14 @@
         {
             return array_keys($arr);
         }
+
+        public static function valuesIntersects(array $left, array $right): array
+        {
+            return array_intersect($left, $right);
+        }
+
+        public static function notEmpty(array $arr): bool
+        {
+            return !Arr::empty($arr);
+        }
     }
