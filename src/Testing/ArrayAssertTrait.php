@@ -21,7 +21,7 @@
     /**
      * @mixin PhpUnitTestCase
      */
-    trait ArrayExceptionTrait
+    trait ArrayAssertTrait
     {
         protected function assertArrayInstanceOf(array $expected, array $actual): void
         {

@@ -12,5 +12,5 @@
 
     class TestCase extends PhpUnitTestCase
     {
-        use MatchExceptionTrait, ArrayExceptionTrait;
+        use MatchExceptionTrait, ArrayAssertTrait;
     }
