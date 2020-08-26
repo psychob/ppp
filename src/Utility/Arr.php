@@ -175,17 +175,6 @@
             return $emptyValue;
         }
 
-        public static function first($arr)
-        {
-            if ($arr instanceof \Generator) {
-                return $arr->current();
-            } else {
-                $firstKey = array_key_first($arr);
-
-                return $arr[$firstKey];
-            }
-        }
-
         public static function sort(array $arr, $cmpCallable): array
         {
             uasort($arr, $cmpCallable);
@@ -213,20 +202,5 @@
         public static function keys(array $arr): array
         {
             return array_keys($arr);
-        }
-
-        public static function firstOf($arr, $callback)
-        {
-            foreach ($arr as $key => $value) {
-                if ($callback($value, $key)) {
-                    return $value;
-                }
-            }
-
-            return null;
-        }
-
-        public static function fetchBack($arr)
-        {
         }
     }
