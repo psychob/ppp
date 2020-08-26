@@ -12,6 +12,6 @@
     {
         protected function filterOutElement($key, $current): bool
         {
-            return ($this->callable)($current, $key);
+            return (bool)($this->callable)($current, $key);
         }
     }
