@@ -10,6 +10,8 @@
 
     use PHPUnit\Framework\Constraint\Constraint;
     use PsychoB\WebFramework\Utility\Arr;
+    use SebastianBergmann\Comparator\ComparisonFailure;
+    use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 
     class ObjectPropertiesConstraint extends Constraint
     {
@@ -52,6 +54,22 @@
                 return true;
             }
 
-            // TODO: Finish it
+            $comparatorFactory = ComparatorFactory::getInstance();
+
+            try {
+                $comparator = $comparatorFactory->getComparatorFor(
+                    $left,
+                    $right
+                );
+
+                $comparator->assertEquals(
+                    $left,
+                    $right
+                );
+            } catch (ComparisonFailure $f) {
+                return false;
+            }
+
+            return true;
         }
     }

@@ -205,16 +205,6 @@
             return key($arrLike);
         }
 
-        /**
-         * @param array|\Generator|iterable $arr
-         *
-         * @return array
-         */
-        public static function toArray($arr): array
-        {
-            return iterator_to_array($arr);
-        }
-
         public static function stream($arr): CollectionStreamInterface
         {
             return new CollectionStream($arr);

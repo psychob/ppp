@@ -8,7 +8,9 @@
 
     namespace PsychoB\WebFramework\Utility\Enum;
 
-    class AssertPrimitiveTypeEnum
+    use PsychoB\WebFramework\Core\Enum\AbstractEnum;
+
+    class AssertPrimitiveTypeEnum extends AbstractEnum
     {
         public const ARRAY = 2;
     }

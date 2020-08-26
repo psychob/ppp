@@ -11,6 +11,7 @@
     use Iterator;
     use PHPUnit\Framework\TestCase as PhpUnitTestCase;
     use PsychoB\WebFramework\Testing\Constraints\ArrayIsEqualConstraint;
+    use PsychoB\WebFramework\Testing\Constraints\ArrayValuesAreEqualsConstraint;
     use PsychoB\WebFramework\Utility\Arr;
     use PsychoB\WebFramework\Utility\Exceptions\IteratorHasNoMoreElementsException;
     use PsychoB\WebFramework\Utility\Str;
@@ -101,5 +102,14 @@
         public static function assertArrayEquals(array $expected, $actual, string $message = ''): void
         {
             PhpUnitTestCase::assertThat($actual, new ArrayIsEqualConstraint($expected), $message);
+        }
+
+        public static function assertArrayValuesAreEquals(array $expected, $actual, string $message = ''): void
+        {
+            PhpUnitTestCase::assertThat(
+                $actual,
+                new ArrayValuesAreEqualsConstraint($expected),
+                $message
+            );
         }
     }
