@@ -10,8 +10,10 @@
 
     use PsychoB\WebFramework\Utility\Arr;
     use PsychoB\WebFramework\Utility\Str;
+    use PsychoB\WebFramework\Web\Enum\HttpMethodEnum;
     use PsychoB\WebFramework\Web\Exceptions\DuplicateRouteException;
     use PsychoB\WebFramework\Web\Exceptions\DuplicateRouteNameException;
+    use PsychoB\WebFramework\Web\Http\Controllers\BasicErrorController;
     use PsychoB\WebFramework\Web\Http\Request;
 
     class RouteManager
@@ -67,7 +69,7 @@
                 }
             }
 
-            return new FilledRoute($this->get404Route(), $request);
+            return new FilledRoute($this->get404Route($request), $request);
         }
 
         private function _checkIfConflicting(Route $new, Route $current): bool
@@ -83,5 +85,15 @@
         public function getRouteCount(): int
         {
             return Arr::len($this->routes);
+        }
+
+        public function get404Route(Request $request): Route
+        {
+            return new Route(
+                HttpMethodEnum::all(),
+                $request->getUri(),
+                [BasicErrorController::class, 'routeNotFound'],
+                'ppp.error.404'
+            );
         }
     }

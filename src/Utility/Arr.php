@@ -213,4 +213,9 @@
         {
             return !Arr::empty($arr);
         }
+
+        public static function values(array $arr): array
+        {
+            return array_values($arr);
+        }
     }

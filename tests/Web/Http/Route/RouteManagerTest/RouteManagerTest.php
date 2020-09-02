@@ -98,5 +98,12 @@
 
         public function testMatchRouteEmpty(): void
         {
+            $request = new Request('GET', '/image/2137.png');
+
+            $filled = $this->routeManager->matchRouteForRequest($request);
+
+            $this->assertInstanceOf(FilledRoute::class, $filled);
+            $this->assertSame($request, $filled->getRequest());
+            $this->assertSame($filled->getName(), 'ppp.error.404');
         }
     }

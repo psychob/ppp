@@ -33,4 +33,13 @@
 
             return Arr::in(AbstractEnum::$GlobalEnumCache[static::class], $element);
         }
+
+        public static function all(): array
+        {
+            if (!Arr::hasKey(AbstractEnum::$GlobalEnumCache, static::class)) {
+                AbstractEnum::$GlobalEnumCache[static::class] = (new \ReflectionClass(static::class))->getConstants();
+            }
+
+            return Arr::values(AbstractEnum::$GlobalEnumCache[static::class]);
+        }
     }
