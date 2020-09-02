@@ -19,6 +19,7 @@
     "require-dev": {
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.4",
+        "phpmetrics/phpmetrics": "^2.7",
         "phpunit/phpunit": "^9.3",
         "sebastian/diff": "^4.0",
         "symfony/var-dumper": "^5.1"
@@ -39,6 +40,7 @@
     },
     "scripts": {
         "test": "php ./vendor/bin/phpunit",
-        "coverage": "php ./vendor/bin/phpunit --coverage-html var/coverage"
+        "coverage": "php ./vendor/bin/phpunit --coverage-html var/coverage",
+        "analytic": "php ./vendor/bin/phpmetrics src --report-html=var/analytics"
     }
 }
