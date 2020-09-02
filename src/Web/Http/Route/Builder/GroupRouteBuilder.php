@@ -8,6 +8,7 @@
 
     namespace PsychoB\WebFramework\Web\Http\Route\Builder;
 
+    use PsychoB\WebFramework\Utility\Url;
     use PsychoB\WebFramework\Web\Enum\HttpMethodEnum;
 
     class GroupRouteBuilder implements RouteBuilderGroupInterface, RouteGroupInterface
@@ -28,7 +29,7 @@
 
         public function addRoute(array $method, string $uri, array $ctrl, ?string $name = null)
         {
-            $this->father->addRoute($method, $uri, $ctrl, $name);
+            $this->father->addRoute($method, Url::join($this->uri, $uri), $ctrl, $name);
         }
 
         public function routes(callable $definitions): void
