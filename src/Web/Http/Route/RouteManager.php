@@ -15,8 +15,9 @@
     use PsychoB\WebFramework\Web\Exceptions\DuplicateRouteNameException;
     use PsychoB\WebFramework\Web\Http\Controllers\BasicErrorController;
     use PsychoB\WebFramework\Web\Http\Request;
+    use PsychoB\WebFramework\Web\Http\Route\Builder\RouteGroupInterface;
 
-    class RouteManager
+    class RouteManager implements RouteGroupInterface
     {
         /** @var Route[] */
         private array $routes = [];
