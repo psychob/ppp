@@ -10,18 +10,14 @@
 
     use ArrayIterator;
     use Iterator;
-    use PsychoB\WebFramework\Collection\Iterator\FilterIterator;
-    use PsychoB\WebFramework\Collection\Iterator\FilterKeyIterator;
-    use PsychoB\WebFramework\Collection\Iterator\FilterValueIterator;
-    use PsychoB\WebFramework\Collection\Iterator\MapIterator;
-    use PsychoB\WebFramework\Collection\Iterator\MapKeyIterator;
-    use PsychoB\WebFramework\Collection\Iterator\MapValueIterator;
+    use PsychoB\WebFramework\Collection\Traits\CollectionFilterTrait;
     use PsychoB\WebFramework\Utility\Arr;
 
     class CollectionStream implements CollectionStreamInterface
     {
+        use CollectionFilterTrait;
+
         private array $container;
-        private array $filters;
 
         private bool $iterating = false;
         private Iterator $iterator;
@@ -30,47 +26,6 @@
         {
             $this->container = $container;
             $this->filters = [];
-        }
-
-        public function filterKey($callable): CollectionStreamInterface
-        {
-            return $this->_append(FilterKeyIterator::class, $callable);
-        }
-
-        public function filterValue($callable): CollectionStreamInterface
-        {
-            return $this->_append(FilterValueIterator::class, $callable);
-        }
-
-        public function filterOutEmpty(): CollectionStreamInterface
-        {
-            return $this->_append(FilterValueIterator::class, fn ($value) => !empty($value));
-        }
-
-        public function mapKey($callable): CollectionStreamInterface
-        {
-            return $this->_append(MapKeyIterator::class, $callable);
-        }
-
-        public function mapValue($callable): CollectionStreamInterface
-        {
-            return $this->_append(MapValueIterator::class, $callable);
-        }
-
-        public function filter($callable): CollectionStreamInterface
-        {
-            return $this->_append(FilterIterator::class, $callable);
-        }
-
-        public function map($callable): CollectionStreamInterface
-        {
-            return $this->_append(MapIterator::class, $callable);
-        }
-
-        private function _append(string $class, $callable): CollectionStreamInterface
-        {
-            $this->filters[] = [$class, $callable];
-            return $this;
         }
 
         private function iterate(): iterable
@@ -84,9 +39,9 @@
                 $cnt = new ArrayIterator($tmp);
 
                 foreach ($this->filters as $val) {
-                    [$class, $callable] = $val;
+                    [$class, $arguments] = $val;
 
-                    $cnt = new $class($cnt, $callable);
+                    $cnt = new $class($cnt, ...$arguments);
                 }
 
                 return $cnt;

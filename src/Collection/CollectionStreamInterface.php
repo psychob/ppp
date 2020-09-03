@@ -10,6 +10,7 @@
 
     use Countable;
     use Iterator;
+    use PsychoB\WebFramework\Collection\Enum\SortDirectionEnum;
 
     interface CollectionStreamInterface extends Iterator, Countable
     {
@@ -26,6 +27,23 @@
         public function mapValue($callable): CollectionStreamInterface;
 
         public function map($callable): CollectionStreamInterface;
+
+        public function sort(
+            int $direction = SortDirectionEnum::ASCENDING,
+            bool $preserveKeys = true
+        ): CollectionStreamInterface;
+
+        public function sortKeys(
+            int $direction = SortDirectionEnum::ASCENDING
+        ): CollectionStreamInterface;
+
+        public function sortBy($callable, bool $preserveKeys = true): CollectionStreamInterface;
+
+        public function sortByField(
+            string $field,
+            int $direction = SortDirectionEnum::ASCENDING,
+            bool $preserveKeys = true
+        ): CollectionStreamInterface;
 
         public function toArray(): array;
     }
