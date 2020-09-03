@@ -11,5 +11,6 @@
     interface RouteBuilderGroupInterface extends RouteBuilderInterface
     {
         public function middleware(string $aliasOrClass, ...$arguments): self;
+        public function name(string $name): self;
         public function routes(callable $definitions): void;
     }

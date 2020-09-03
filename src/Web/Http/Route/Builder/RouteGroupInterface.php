@@ -10,5 +10,11 @@
 
     interface RouteGroupInterface
     {
-        public function addRoute(array $method, string $uri, array $ctrl, ?string $name = null);
+        public function addRoute(
+            array $method,
+            string $uri,
+            array $ctrl,
+            array $middlewares = [],
+            ?string $name = null
+        ): void;
     }

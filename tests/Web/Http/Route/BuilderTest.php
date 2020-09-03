@@ -21,10 +21,10 @@
         {
             $adder = Mockery::mock(RouteGroupInterface::class);
 
-            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::GET], '/foo', ['foo', 'get'], null);
-            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::POST], '/foo', ['foo', 'post'], null);
-            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::PUT], '/foo', ['foo', 'put'], null);
-            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::DELETE], '/foo', ['foo', 'delete'], null);
+            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::GET], '/foo', ['foo', 'get'], [], null);
+            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::POST], '/foo', ['foo', 'post'], [], null);
+            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::PUT], '/foo', ['foo', 'put'], [], null);
+            $adder->shouldReceive('addRoute')->with([HttpMethodEnum::DELETE], '/foo', ['foo', 'delete'], [], null);
 
             $grouper = new GroupRouteBuilder($adder, '/');
             $grouper->get('/foo', ['foo', 'get']);
@@ -32,10 +32,10 @@
             $grouper->put('/foo', ['foo', 'put']);
             $grouper->delete('/foo', ['foo', 'delete']);
 
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::GET], '/foo', ['foo', 'get'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::POST], '/foo', ['foo', 'post'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::PUT], '/foo', ['foo', 'put'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::DELETE], '/foo', ['foo', 'delete'], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::GET], '/foo', ['foo', 'get'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::POST], '/foo', ['foo', 'post'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::PUT], '/foo', ['foo', 'put'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::DELETE], '/foo', ['foo', 'delete'], [], null]);
         }
 
         public function testCreatingRoutesWithHierarchy(): void
@@ -57,14 +57,14 @@
                 $router->delete('/foo', ['foo', 'delete']);
             });
 
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::GET], '/foo', ['foo', 'get'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::POST], '/foo', ['foo', 'post'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::PUT], '/foo', ['foo', 'put'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::DELETE], '/foo', ['foo', 'delete'], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::GET], '/foo', ['foo', 'get'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::POST], '/foo', ['foo', 'post'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::PUT], '/foo', ['foo', 'put'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::DELETE], '/foo', ['foo', 'delete'], [], null]);
 
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::GET], '/img/foo', ['foo', 'get'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::POST], '/img/foo', ['foo', 'post'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::PUT], '/img/foo', ['foo', 'put'], null]);
-            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::DELETE], '/img/foo', ['foo', 'delete'], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::GET], '/img/foo', ['foo', 'get'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::POST], '/img/foo', ['foo', 'post'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::PUT], '/img/foo', ['foo', 'put'], [], null]);
+            $adder->shouldHaveReceived('addRoute', [[HttpMethodEnum::DELETE], '/img/foo', ['foo', 'delete'], [], null]);
         }
     }

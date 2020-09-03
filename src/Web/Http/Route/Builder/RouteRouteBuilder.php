@@ -25,6 +25,6 @@
 
         public function __destruct()
         {
-            $this->father->addRoute([$this->method], $this->uri, $this->controller);
+            $this->father->addRoute([$this->method], $this->uri, $this->controller, []);
         }
     }

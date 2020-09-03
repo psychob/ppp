@@ -19,7 +19,7 @@
     {
         public static function getDefaultPriority(): int
         {
-            return MiddlewarePriorityEnum::ORDERED;
+            return MiddlewarePriorityEnum::HIGHEST;
         }
 
         private array $allowedEnvironments = [];

@@ -21,8 +21,9 @@
         protected string $uri;
         protected array $controller;
         protected ?string $name = null;
+        protected array $middlewares = [];
 
-        public function __construct(array $methods, string $uri, array $controller, ?string $name = null)
+        public function __construct(array $methods, string $uri, array $controller, ?string $name = null, array $middlewares = [])
         {
             Fnc::assert(
                 HttpMethodEnum::hasAll($methods),
@@ -33,6 +34,7 @@
             $this->uri = $uri;
             $this->controller = $controller;
             $this->name = $name;
+            $this->middlewares = $middlewares;
         }
 
         public function getMethods(): array
@@ -53,6 +55,11 @@
         public function getName(): ?string
         {
             return $this->name;
+        }
+
+        public function getMiddlewares(): array
+        {
+            return $this->middlewares;
         }
 
         public function match(Request $request): ?FilledRoute

@@ -8,6 +8,7 @@
 
     namespace PsychoB\WebFramework\Web\Http\Route\Builder;
 
+    use PsychoB\WebFramework\Utility\Str;
     use PsychoB\WebFramework\Utility\Url;
     use PsychoB\WebFramework\Web\Enum\HttpMethodEnum;
 
@@ -15,6 +16,8 @@
     {
         private RouteGroupInterface $father;
         private string $uri;
+        private array $middlewares = [];
+        private ?string $name = null;
 
         public function __construct(RouteGroupInterface $groupInfo, string $uri)
         {
@@ -24,12 +27,41 @@
 
         public function middleware(string $aliasOrClass, ...$arguments): RouteBuilderGroupInterface
         {
-            /// TODO
+            $this->middlewares[] = [
+                'class' => $aliasOrClass,
+                'arguments' => $arguments,
+            ];
+
+            return $this;
         }
 
-        public function addRoute(array $method, string $uri, array $ctrl, ?string $name = null)
+        public function name(string $name): RouteBuilderGroupInterface
         {
-            $this->father->addRoute($method, Url::join($this->uri, $uri), $ctrl, $name);
+            $this->name = $name;
+
+            return $this;
+        }
+
+        public function addRoute(
+            array $method,
+            string $uri,
+            array $ctrl,
+            array $middlewares = [],
+            ?string $name = null
+        ): void {
+            if ($name !== null) {
+                if ($this->name) {
+                    $name = Str::join('.', $this->name, $name);
+                }
+            }
+
+            $this->father->addRoute(
+                $method,
+                Url::join($this->uri, $uri),
+                $ctrl,
+                $middlewares + $this->middlewares,
+                $name
+            );
         }
 
         public function routes(callable $definitions): void

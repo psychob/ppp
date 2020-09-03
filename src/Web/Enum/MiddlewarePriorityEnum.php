@@ -12,5 +12,9 @@
 
     class MiddlewarePriorityEnum extends AbstractEnum
     {
-        public const ORDERED = -1;
+        public const HIGHEST = 1000;
+        public const HIGH = 100;
+        public const NORMAL = 0;
+        public const LOW = -100;
+        public const LOWEST = -1000;
     }

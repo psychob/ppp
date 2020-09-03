@@ -18,7 +18,7 @@
 
         public function __construct(Route $route, Request $request, array $matched = [])
         {
-            parent::__construct($route->getMethods(), $route->getUri(), $route->getController(), $route->getName());
+            parent::__construct($route->getMethods(), $route->getUri(), $route->getController(), $route->getName(), $route->getMiddlewares());
 
             $this->request = $request;
             $this->matched = Arr::stream($matched)->filterKey(fn ($v) => !is_int($v))->toArray();

@@ -191,4 +191,24 @@
 
             return $str[strlen($str) - 1];
         }
+
+        public static function join(string $joiner, string ...$elements): string
+        {
+            $ret = '';
+
+            foreach ($elements as $part) {
+                $lastRetHasSlash = Str::last($ret) === $joiner;
+                $firstPartHashSlash = Str::first($part) === $joiner;
+
+                if ($lastRetHasSlash && $firstPartHashSlash) {
+                    $ret .= Str::sub($part, 1);
+                } else if ($lastRetHasSlash || $firstPartHashSlash) {
+                    $ret .= $part;
+                } else {
+                    $ret .= $joiner . $part;
+                }
+            }
+
+            return $ret;
+        }
     }
